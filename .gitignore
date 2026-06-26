@@ -1,0 +1,54 @@
+# Power BI files
+*.pbit
+*.pbix
+*.pbixproj
+*.pbixprofile
+
+# Backup and temporary files
+*.bak
+*.tmp
+*.temp
+*~
+*.swp
+*.swo
+.DS_Store
+
+# IDE and editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Node modules
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# OS-specific files
+Thumbs.db
+.DS_Store
+
+# Sensitive files
+*.key
+*.pem
+.env
+.env.local
+
+# Logs
+logs/
+*.log
+
+# Temporary output
+temp/
+tmp/
+output/
+
+# Archive files
+*.zip
+*.rar
+*.7z
