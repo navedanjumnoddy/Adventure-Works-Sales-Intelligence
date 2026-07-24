@@ -1,277 +1,272 @@
-# Adventure Works Sales & Customer Intelligence
+# Adventure Works — Sales & Customer Intelligence Dashboard
+### Global Revenue Analytics | Power BI | DAX | Interactive Design
 
-An interactive Power BI sales and customer analytics dashboard built on real-world e-commerce data. Comprehensive analysis of product performance, customer behavior, regional trends, and sales forecasting.
-
-## Project Overview
-
-**Adventure Works Sales & Customer Intelligence** is a professional Power BI dashboard built from the Maven Analytics course using the Adventure Works database. It delivers actionable insights into sales performance, customer behavior, and market trends through interactive visualization and advanced analytics.
-
-### Key Highlights
-
-- **6 Interactive Report Pages** with drill-through capabilities
-- **Star Schema Data Model** with 2 fact tables and 5 dimension tables
-- **Advanced Bookmarks** for dynamic filtering (8 bookmark filters)
-- **Custom Visuals** including Deneb, Chiclet Slicer, Bullet Chart, Linear Gauge, Lollipop Chart
-- **Real-world E-commerce Data** from Adventure Works database
-- **Sales Forecasting** with confidence intervals
-- **Customer Segmentation** and RFM analysis
-- **Geographic Analytics** with map visuals
-
-## Report Pages
-
-### 1. **Executive Dashboard**
-- KPI cards: Total Revenue, Total Orders, Average Order Value, Customer Count
-- Revenue trend (line chart with forecast)
-- Top products by revenue (bar chart)
-- Sales by region (map visual)
-- YoY growth metrics
-- **Interactive:** Click KPIs to drill into details
-
-### 2. **Product Performance**
-- Product-level revenue analysis
-- Profitability heatmap
-- Sales volume vs. revenue scatter plot
-- Top/bottom 10 products ranking
-- Category performance breakdown
-- Inventory levels by product
-- **Drill-through:** Click any product for detailed analytics
-
-### 3. **Customer Insights**
-- Customer segmentation (RFM - Recency, Frequency, Monetary)
-- Customer lifetime value (CLV) distribution
-- Acquisition vs. retention metrics
-- Customer cohort analysis
-- Top customers by revenue
-- Geographic customer distribution
-- **Bookmarks:** Segment-specific dashboards (High-Value, At-Risk, New)
-
-### 4. **Sales Analysis**
-- Sales by region, salesperson, and time period
-- Order fulfillment metrics
-- Return rate analysis
-- Sales channel performance (Online vs. Reseller)
-- Seasonal trends with forecasts
-- Salesperson performance leaderboard
-- **Interactive Slicers:** Date, Region, Product Category, Sales Channel
-
-### 5. **Regional Deep Dive**
-- Region-level performance dashboard
-- Territory metrics and targets
-- Regional customer base analysis
-- Competitive position by region
-- Growth trends and forecasts
-- Regional inventory levels
-- **Map Visual:** Interactive regional analysis
-
-### 6. **Detailed Analytics**
-- Transaction-level drill-down capability
-- Order details with customer information
-- Product performance granular view
-- Custom filters and cross-filtering
-- Export-ready data tables
-- **Flexibility:** Explore any dimension combination
-
-## Technical Specifications
-
-### Data Model
-- **Fact Tables:** 2
-  - Sales Orders (500K+ rows)
-  - Returns (50K+ rows)
-- **Dimension Tables:** 5
-  - Date (2015-2025)
-  - Product (500+ SKUs)
-  - Customer (20K+ customers)
-  - Salesperson (300+ reps)
-  - Territory (50+ regions)
-- **Architecture:** Star Schema optimized for Power BI
-
-### Features & Interactivity
-- **8 Bookmark Filters:**
-  - Monthly view
-  - Quarterly view
-  - Regional comparison
-  - Top products
-  - High-value customers
-  - New customers
-  - Performance analysis
-  - Forecast view
-  
-- **Custom Visuals Used:**
-  - **Deneb:** Advanced custom visualizations
-  - **Chiclet Slicer:** Product category filter
-  - **Bullet Chart:** Target vs. actual KPIs
-  - **Linear Gauge:** Performance indicators
-  - **Lollipop Chart:** Ranking visualizations
-
-### Slicers & Filters
-- Date Range Slicer (interactive timeline)
-- Region Multi-select
-- Product Category Chiclet Slicer
-- Sales Channel Filter
-- Salesperson Filter
-- Customer Segment Filter
-- Conditional filter panel with bookmarks
-
-### DAX Measures (40+)
-- Revenue, COGS, Gross Profit, Net Profit
-- Growth metrics (YoY, MoM)
-- Market share calculations
-- Customer lifetime value
-- Churn rate analysis
-- Forecast accuracy
-- Inventory turnover
-- And more...
-
-## Data Sources
-
-- **Adventure Works Database:** Microsoft SQL Server sample database
-- **Tables:** 
-  - SalesOrderHeader, SalesOrderDetail
-  - Product, ProductCategory, ProductSubcategory
-  - Customer, Address, CustomerAddress
-  - SalesPerson, SalesTerritory
-  - SpecialOfferProduct
-  - Returns
-
-## How to Use
-
-### Opening & Refreshing
-1. Download `Adventure_Works_Sales_Intelligence.pbix`
-2. Open in Power BI Desktop
-3. Go to **Home → Refresh** to update data
-4. Grant SQL Server connection permissions if prompted
-
-### Navigation
-- **Page Navigation:** Tabs at bottom show all 6 pages
-- **Drill-through:** Right-click on visuals with drill-through icons
-- **Bookmarks Panel:** View → Bookmarks → Show Bookmarks panel
-- **Slicers:** Use dropdowns and toggle filters on left side
-
-### Using Bookmarks
-- **Monthly View:** Filter for single month trends
-- **Regional Comparison:** Compare regions side-by-side
-- **Top Products:** Auto-filter to top 10 products
-- **Customer Focus:** High-value or new customer analysis
-- **Forecast View:** Revenue projection with confidence bands
-
-### Filtering Best Practices
-1. Use slicers (faster than visual filters)
-2. Apply date filter first to reduce data volume
-3. Use Ctrl+click for multi-select in dropdowns
-4. Press Ctrl+A to clear all filters
-5. Bookmark your filter combinations
-
-## Performance Tips
-
-- **Load Times:** First-time open ~15 seconds; subsequent loads <5 seconds
-- **Large Date Ranges:** Limit to 12 months for optimal performance
-- **Drill-through:** Use with moderate detail levels
-- **Export:** Switch to Edit mode for large data exports
-- **Refresh:** Schedule incremental refreshes during off-peak hours
-
-## Insights & Key Findings
-
-### Revenue Patterns
-- Seasonal peak during Q4 (holiday season)
-- Online channel growing 25% YoY
-- Top 20% customers = 80% of revenue
-
-### Customer Insights
-- Average CLV: $3,500+
-- Retention rate: 65% annually
-- New customer acquisition cost declining
-
-### Product Performance
-- Bikes category: 60% of revenue, 40% of volume
-- Accessories: High margin (40%+)
-- Standard products outperform premium
-
-### Geographic Trends
-- North America: 40% of revenue
-- Europe: Growing fastest (+30% YoY)
-- Pacific region: Highest avg. order value
-
-## Troubleshooting
-
-| Issue | Solution |
-|---|---|
-| **Slow refresh** | Check SQL Server connection; reduce date range |
-| **Blank visuals** | Verify data connections; refresh each table |
-| **Filter not working** | Clear all filters (Ctrl+A); re-apply filters |
-| **Bookmarks missing** | View → Bookmarks → Show Bookmarks panel |
-| **Export limited** | Switch to Edit mode; use Table view for raw data |
-
-## Technical Skills Demonstrated
-
-✅ **Power BI Desktop:** Report design, DAX, data modeling  
-✅ **DAX Advanced:** CALCULATE, FILTER, RANKX, time intelligence  
-✅ **Data Modeling:** Star schema, relationships, cardinality  
-✅ **Custom Visuals:** Deneb, Chiclet Slicer, specialized charts  
-✅ **Interactivity:** Bookmarks, drill-through, dynamic filters  
-✅ **SQL Databases:** Adventure Works, query optimization  
-✅ **Business Analytics:** Forecasting, segmentation, KPI tracking  
-
-## Lessons Learned
-
-- Effective use of bookmarks for user navigation
-- Custom visuals for specialized analytical needs
-- Performance optimization with large datasets
-- Star schema benefits for rapid analytics
-- User experience design in dashboards
-
-## Future Enhancements
-
-- [ ] Real-time sales data integration
-- [ ] AI-powered demand forecasting
-- [ ] Customer churn prediction model
-- [ ] Mobile-optimized views
-- [ ] Paginated reports for print
-- [ ] Power Automate alerts for KPI thresholds
-
-## Files Included
-
-- `Adventure_Works_Sales_Intelligence.pbix` - Main Power BI workbook
-- `DAX_Measures.md` - Complete DAX formula documentation
-- `Data_Model_Schema.md` - Detailed data model specification
-- `README.md` - This file
-- `.gitignore` - Git configuration
-
-## Installation & Setup
-
-### Requirements
-- Power BI Desktop (version 2.100+)
-- SQL Server or SQL Server Express
-- Adventure Works database (can use sample data)
-- 2GB RAM minimum, 5GB free disk space
-
-### Steps
-1. Clone this repository
-2. Download `Adventure_Works_Sales_Intelligence.pbix`
-3. Open in Power BI Desktop
-4. Configure data source connections
-5. Refresh all tables
-6. Navigate through reports
-
-## Author
-
-**Naved Anjum (Noddy)**  
-Senior MIS Reporting Manager  
-Power BI Developer | Business Intelligence Specialist  
-[LinkedIn](#) | [GitHub](https://github.com/navedanjumnoddy)
-
-## Acknowledgments
-
-- **Course:** Maven Analytics Power BI Complete Course
-- **Instructor:** Chris Dutton
-- **Dataset:** Microsoft Adventure Works Sample Database
-- **Custom Visuals:** AppSource community contributors
-
-## License
-
-This project is shared for portfolio and educational purposes. Commercial use requires explicit permission.
+![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?style=for-the-badge&logo=powerbi&logoColor=black)
+![DAX](https://img.shields.io/badge/DAX-0078D4?style=for-the-badge&logo=microsoft&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Completed-brightgreen?style=for-the-badge)
 
 ---
 
-**Project Status:** Production Ready  
-**Last Updated:** June 2026  
-**Version:** 2.0
+## 🔗 Live Dashboard
+
+**[▶ View Live Report on Power BI Service](https://app.powerbi.com/view?r=eyJrIjoiYmQ4NGIzMDctY2FhZC00YzMwLTk4YzYtOWM2NDA2MTRlODJhIiwidCI6Ijg3NTIyNjVhLTMwYTctNDk0MS05YmFhLTQ3NmE3MzE4MGZlMSJ9)**
+
+> ℹ️ **Project Note:** This is a **personal portfolio project** built on the Adventure Works sample dataset (a fictional bicycle manufacturer), used here to simulate a real sales organization. It is not a client engagement — the goal was to design a dashboard leadership could genuinely use to spot growth opportunities, catch problems early, and test decisions before making them.
+
+---
+
+## 📌 Project Overview
+
+**Scenario:** Adventure Works sells bikes and accessories across **three global territories** — North America, Europe, and the Pacific — through multiple channels. Sales, product, and operations teams need one place to answer: *where is revenue coming from, who are our best customers, and where is the business losing money?*
+
+**What This Dashboard Does:** Gives leadership real-time visibility into revenue performance, customer profitability, product performance, and geographic demand — with the tools to act on it: dynamic targets, scenario modeling, and root-cause views for returns.
+
+**Key Capabilities:**
+- 🎯 **Revenue tracking against targets**, with a full month-over-month and year-over-year comparison view
+- 👥 **Customer profitability ranking** — instantly surface the top 10 accounts by revenue, orders, or profit
+- 📦 **Product performance** by category and subcategory, so underperformers are easy to spot
+- 🌍 **Geographic demand mapping**, plus a revenue-vs-return-rate view that flags markets at risk
+- 🔄 **Returns root-cause analysis** by reason, product, and territory
+- ⚙️ **Pricing scenario modeling** — see the profit impact of a price change before making it
+- 🎨 **Built for fast decisions** — collapsible filters, one-click metric switching, and inline hover details keep the focus on insight, not navigation
+
+---
+
+## 🎯 Business Questions This Dashboard Answers
+
+| Question | How the Dashboard Answers It | Business Action It Enables |
+|----------|------------------------------|-----------------------------|
+| **Which products and categories drive revenue?** | Ranked product performance by revenue, orders, and profit | Focus inventory and marketing spend on top performers |
+| **Who are our most valuable customers?** | Dynamic top-10 ranking by revenue, orders, or profit | Prioritize account management where it pays off most |
+| **Where is demand strongest — and where is it at risk?** | Revenue by continent, country, and region, plus a revenue-vs-return-rate view | Direct sales effort to strong markets; flag high-return markets before they erode margin |
+| **How are we tracking against target — this month, last month, last year?** | Monthly trend vs. target with a full period-comparison view (last month, month-over-month, last year, year-over-year, quarter- and year-to-date) | Catch underperformance early, from any time angle |
+| **Why are customers returning products?** | Return rate by product, reason, and territory, with the revenue impact quantified | Fix the root cause — quality, sizing, fit — instead of just tracking the symptom |
+| **What happens to margin if we adjust pricing?** | A live pricing slider that recalculates revenue and profit instantly | Test pricing decisions before rolling them out |
+
+---
+
+## 📊 Dashboard Structure
+
+### Pages
+
+| # | Page | Built For | What It Shows |
+|---|------|-----------|----------------|
+| 1 | **Home** | Everyone | Dashboard overview and quick navigation |
+| 2 | **Executive** | Leadership | Revenue vs. target, trend, orders by category, plus a one-click toggle into a full period-comparison view (last month, MoM, last year, YoY, QTD, YTD) |
+| 3 | **Product** | Product & Marketing | Product-level performance with category/subcategory drill-down and a switchable trend metric |
+| 4 | **Customer** | Sales Leadership | Top-10 customer ranking, occupation and income-level breakdowns |
+| 5 | **Map** | Regional Leadership | Revenue by continent/country/region, plus a revenue-vs-return-rate view that flags at-risk markets |
+| 6 | **Returns** | Operations & Quality | Return rate trend, revenue impact, and root causes by product and territory |
+| 7–12 | **Hover Detail Pages** (6) | Everyone | Inline KPI and trend detail on hover — context without leaving the page |
+
+### What Makes It Easy to Use
+
+| Feature | What It Does | Why It's There |
+|---------|---------------|-----------------|
+| **Collapsible Filter Panel** | Hides or shows filters on every main page | Keeps the focus on data, not filter clutter |
+| **Period-Comparison Toggle** | Switches the Executive page between the headline view and a full last-month/MoM/last-year/YoY/QTD/YTD matrix | One click to go from "what happened" to "how does that compare" |
+| **Metric Switcher (Product page)** | Swaps the trend chart between Orders, Revenue, Profit, Returns, and Return % | Answers "what's driving this trend?" without switching pages |
+| **Top Customer Ranking** | Re-ranks instantly by Revenue, Orders, or Profit | No manual sorting to find who matters most |
+| **Territory Drill-Down** | Moves between Continent → Country → Region on the revenue chart | Navigate geography without a separate drill-through page |
+| **Date Granularity Switcher** | Toggles the revenue trend between Year, Month, Week, and Day | Right level of detail for the question being asked |
+| **Pricing Scenario Slider** | Models the profit impact of a price change from 0% to +50% | Test a pricing decision before committing to it |
+| **6 Hover Detail Pages** | Inline KPI cards and trend charts appear on hover | Quick context without breaking flow |
+| **Customer View Toggle** | Switches between active customer count and average revenue per customer | Separates "how many customers" from "how valuable are they" |
+
+---
+
+## ⏱️ Period-Over-Period Comparison
+
+The Executive page includes a reusable period-comparison view — last month, month-over-month change, last year, year-over-year change, quarter-to-date, and year-to-date — that works against whichever metric is selected, rather than needing a separate calculation for every metric and every time period. In practice, that means Revenue, Profit, or Orders can all be dropped into the same comparison view without rebuilding the logic behind it.
+
+```dax
+-- Month-over-month % change, reusable across any base metric
+'MoM %' =
+VAR _currentValue = SELECTEDMEASURE()
+VAR _previousValue =
+    CALCULATE(
+        SELECTEDMEASURE(),
+        DATEADD('Calendar Lookup'[Date], -1, MONTH)
+    )
+RETURN
+DIVIDE(_currentValue - _previousValue, _previousValue, "-")
+```
+
+**Why this matters for the business:** any new metric added to the model — a new revenue line, a new cost category — automatically gets last-month, year-over-year, and to-date comparisons for free, instead of someone having to write and test that logic again each time.
+
+---
+
+## 🧮 DAX Development — 150 Measures, Organized for Fast Discovery
+
+The model includes **150 DAX measures**, grouped into folders so the right measure is easy to find rather than buried in a flat list:
+
+| Group | Measures | What It Covers |
+|---|---|---|
+| **Visual Formatting** | 40 | Trend arrows, chart labels, axis scaling — makes the visuals communicate at a glance |
+| **All Revenue Measures** | 23 | Total Revenue, prior-month/prior-year comparisons, MoM/YoY %, quarter- and year-to-date, pricing-scenario revenue |
+| **Top Customer Measures** | 19 | Top customer identification, ranking, and name/revenue/order detail for the top-10 view |
+| **All Return Measures** | 19 | Return rate, revenue impact, average return value, monthly return trend |
+| **Other Measures** | 17 | Supporting logic — quantities sold, active customers, dynamic titles, filter state |
+| **HomePage Measures** | 12 | Dataset summary stats shown on the landing page (total customers, products, territories) |
+| **All Profit Measures** | 10 | Total Profit, prior-month comparison, profit target, pricing-scenario profit |
+| **All Order Measures** | 7 | Total Orders, prior-month comparison, order target and target gap |
+
+### A Few Measures Worth Highlighting
+
+```dax
+-- Revenue: the foundation every other revenue measure builds on
+Total Revenue =
+SUMX(
+    'Sales Data',
+    'Sales Data'[OrderQuantity] * RELATED('Product Lookup'[ProductPrice])
+)
+
+-- Return Rate: returned units as a share of units sold
+Return Rate =
+DIVIDE([Quantity Returned], [Quantity Sold], 0)
+
+-- Pricing scenario: what would revenue look like at a different price point?
+Adjusted Revenue =
+SUMX(
+    'Sales Data',
+    'Sales Data'[OrderQuantity] *
+    (1 + 'Price Adjustment (%)'[Price Adjustment (%) Value] / 100) *
+    RELATED('Product Lookup'[ProductPrice])
+)
+
+-- Dynamic target: this month's target is last month's actual, +10%
+Revenue Target = [Revenue Previous Month] * 1.1
+```
+
+*Full reference for all 150 measures, organized by the folders above, is in [`DAX_Measures.md`](DAX_Measures.md).*
+
+---
+
+## 🗄️ Data Model
+
+**Star schema** with 2 fact tables, 6 dimension tables, 6 parameter tables, and 2 supporting tables — 16 tables in total, connected by 9 relationships:
+
+```
+FACT TABLES
+  • Sales Data     — one row per order line (order date, product, customer, territory, quantity)
+  • Returns Data   — one row per returned item (return date, product, territory, quantity, reason)
+
+DIMENSION TABLES
+  • Calendar Lookup                — date hierarchy (day, week, month, quarter, year)
+  • Customer Lookup                — customer profile (demographics, income, occupation)
+  • Product Lookup                 — product detail (name, cost, price, color, size)
+  • Product Categories Lookup      — top-level product category
+  • Product Subcategories Lookup   — product subcategory, linked to category
+  • Territory Lookup               — region, country, continent
+
+PARAMETER TABLES (drive interactivity, no relationship to the data)
+  • Price Adjustment (%)           — pricing scenario slider (0% to +50%)
+  • Product Metric Selection       — Orders / Revenue / Profit / Returns / Return % toggle
+  • Customer Metric Selection      — Active Customers / Avg Revenue per Customer toggle
+  • TopCustomerBy                  — Revenue / Orders / Profit ranking toggle
+  • Territory Parameter            — Continent / Country / Region drill toggle
+  • Dates Parameter                — Year / Month / Week / Day granularity toggle
+
+SUPPORTING TABLES
+  • Measure Table        — houses all 150 DAX measures, organized by folder
+  • Time Intelligence    — reusable period-comparison logic (see above)
+```
+
+*Full column-level detail for every table is in [`Data_Model_Schema.md`](Data_Model_Schema.md).*
+
+**Why this design works:** parameter tables keep pricing sliders, metric toggles, and drill-downs completely separate from the actual sales data, so the interactive features don't slow down the core model or risk double-counting anything.
+
+---
+
+## 📸 Screenshots & Visual Guides
+
+> **How to add:** In Power BI Desktop → File → Export → Export to PNG per page. Save to `Screenshots/` folder with the names below.
+
+| Page | Filename | Key Elements to Capture |
+|------|---------|------------------------|
+| Home | `01_home_page.png` | *[screenshot / GIF placeholder — add here]* |
+| Executive | `02_executive.png` | *[include the period-comparison toggle]* |
+| Product | `03_product.png` | *[screenshot / GIF placeholder — add here]* |
+| Customer | `04_customer.png` | *[screenshot / GIF placeholder — add here]* |
+| Map | `05_map.png` | *[include the revenue-vs-return-rate view]* |
+| Returns | `06_returns.png` | *[screenshot / GIF placeholder — add here]* |
+
+> 💡 **Tip:** A short screen recording showing the filter toggle, the period-comparison switch, and the pricing slider in action demonstrates the interactivity far better than static images — worth having ready for interviews.
+
+---
+
+## 🛠️ Tools & Technologies
+
+| Tool | Purpose |
+|------|---------|
+| **Power BI Desktop** | Report authoring, data modeling, DAX |
+| **Power Query (M)** | Data cleansing and transformation |
+| **DAX** | 150 measures — rankings, scenario modeling, period comparisons, conditional formatting |
+| **Bookmarks** | Filter toggles, metric switches, the Executive period-comparison view |
+| **Hover Detail Pages** | Inline context without navigating away |
+
+---
+
+## ⚡ Scope & Scale
+
+- **Measures:** 150 DAX measures, organized into 8 folders for fast discovery
+- **Pages:** 12 total — 6 main pages, 6 hover-detail pages
+- **Bookmarks:** 14 total (7 toggle pairs) — filter panels, metric toggles, and the Executive period-comparison switch
+- **Reusable Comparison Logic:** 1 calculation group covering last-month, MoM, last-year, YoY, QTD, and YTD in one place
+- **Tables:** 16, connected by 9 relationships in a star schema
+
+---
+
+## 💡 What This Project Demonstrates
+
+1. **Turning business questions into a working tool** — every page maps to a question a sales or ops leader would actually ask
+2. **Scenario planning built in** — the pricing slider lets a decision get tested before it's made, not after
+3. **Reusable logic over repetition** — one period-comparison structure serves every metric instead of duplicating the same calculation for each one
+4. **Fast, low-friction navigation** — collapsible filters, one-click metric switching, and hover details keep users focused on insight
+5. **Root-cause thinking on returns** — not just "returns went up," but which product, which reason, which region
+6. **Clean, discoverable structure** — 150 measures organized into folders so the model stays usable as it grows
+
+---
+
+## 📁 Repository Structure
+
+```
+adventure-works-sales-intelligence/
+│
+├── README.md (this file)
+├── Live Dashboard Link (https://app.powerbi.com/...)
+├── DAX_Measures.md              ← Reference for all 150 measures, grouped by folder
+├── Data_Model_Schema.md         ← Full table and column-level model documentation
+├── Screenshots/
+│   ├── 01_home_page.png
+│   ├── 02_executive.png
+│   ├── 03_product.png
+│   ├── 04_customer.png
+│   ├── 05_map.png
+│   └── 06_returns.png
+└── Theme/
+    └── Portfolio_Theme.json     ← Import-ready Power BI theme
+```
+
+---
+
+## 👤 Author & Contact
+
+**Naved Anjum** — Senior MIS Reporting Manager | Power BI Developer
+
+📧 **Email:** navedanjum1989@gmail.com
+🔗 **LinkedIn:** [linkedin.com/in/navedanjum1989](https://linkedin.com/in/navedanjum1989)
+🔗 **GitHub:** [github.com/navedanjumnoddy](https://github.com/navedanjumnoddy)
+💼 **Portfolio:** [GitHub Projects](https://github.com/navedanjumnoddy)
+
+---
+
+## 📚 References & Acknowledgments
+
+- **Dataset:** Adventure Works — a publicly available Microsoft sample dataset, commonly used for BI practice
+- **Architecture:** Star schema design following Kimball methodology
+
+---
+
+**Last Updated:** July 2026
+**Status:** Complete | Personal Portfolio Project | Live Dashboard Accessible

@@ -1,378 +1,212 @@
-# Adventure Works - Data Model Schema
+# Adventure Works — Data Model Schema
 
-Comprehensive documentation of the star schema data model powering the Adventure Works Sales & Customer Intelligence Power BI dashboard.
+Documentation of the star schema behind the Adventure Works Sales & Customer Intelligence dashboard.
 
-## Data Model Overview
+## Overview
 
-**Schema Type:** Star Schema  
-**Pattern:** Fact-Dimension architecture  
-**Fact Tables:** 2 (Sales Orders, Returns)  
-**Dimension Tables:** 5 (Date, Product, Customer, SalesPerson, Territory)  
-**Total Records:** 500K+ transactions  
-**Architecture Optimization:** Power BI Import mode with relationships  
+**Schema Type:** Star schema
+**Fact Tables:** 2 (Sales Data, Returns Data)
+**Dimension Tables:** 6 (Calendar, Customer, Product, Product Categories, Product Subcategories, Territory)
+**Parameter Tables:** 6 (drive interactivity — pricing scenarios, metric toggles, drill-downs — with no relationship to the fact tables)
+**Supporting Tables:** 2 (Measure Table, Time Intelligence)
+**Total Tables:** 16
+**Relationships:** 9, all single-direction many-to-one (standard star schema pattern)
 
 ### Schema Diagram
-```
-                    ┌──────────────────┐
-                    │  SalesOrderDetail│
-                    │    (Main Fact)   │
-                    └──────────────────┘
-                            │
-        ┌───────────────┬────┼────┬──────────────┐
-        │               │    │    │              │
-    ┌────────┐    ┌──────────┐ ┌─────────┐  ┌──────────┐
-    │  Date  │    │ Product  │ │Customer │  │SalesPerson
-    └────────┘    └──────────┘ └─────────┘  └──────────┘
-        │               │            │            │
-        │               └────────────┴────────────┤
-        │                                        │
-        └────────────────────────────────────────┤
-                         ┌─────────────────┐     │
-                         │   Territory     │◄────┘
-                         └─────────────────┘
 
-                    ┌─────────────────┐
-                    │   Returns       │
-                    │   (Fact Table)  │
-                    └─────────────────┘
-                            │
-                    ┌───────┴───────┐
-                    │               │
-              ┌──────────┐    ┌────────────┐
-              │ Product  │    │   Date     │
-              └──────────┘    └────────────┘
+```
+                         ┌─────────────────────┐
+                         │     Sales Data      │
+                         │   (Fact Table)      │
+                         └──────────┬───────────┘
+                    ┌──────────────────┼──────────────────┐
+                    │                │                │
+            ┌─────────────┐ ┌──────────────┐ ┌──────────────┐
+            │ Calendar Lookup│ │ Customer Lookup│ │Territory Lookup│
+            └─────────────┘ └──────────────┘ └──────────────┘
+                    │
+            ┌─────────────┐
+            │ Product Lookup │
+            └───────┬────────┘
+                     │
+        ┌───────────────────┐
+        │ Product Subcategories    │
+        │        Lookup            │
+        └─────────┬─────────────┘
+                    │
+        ┌───────────────────┐
+        │  Product Categories      │
+        │        Lookup            │
+        └────────────────────┘
+
+                         ┌─────────────────────┐
+                         │    Returns Data      │
+                         │   (Fact Table)       │
+                         └──────────┬───────────┘
+                    ┌──────────────────┼──────────────────┐
+            ┌─────────────┐ ┌──────────────┐ ┌──────────────┐
+            │ Calendar Lookup│ │ Product Lookup│ │Territory Lookup│
+            └─────────────┘ └──────────────┘ └──────────────┘
 ```
 
 ---
 
 ## Fact Tables
 
-### SalesOrderDetail (Primary Fact Table)
+### Sales Data
 
-**Purpose:** Core sales transaction data  
-**Granularity:** One row per line item  
-**Record Count:** 500,000+  
-**Update Frequency:** Daily  
+**Purpose:** One row per order line — the source for every revenue, profit, and order measure.
 
-#### Columns:
-
-| Column | Type | Description | Business Use |
+| Column | Type | Visible | Notes |
 |---|---|---|---|
-| **SalesOrderID** | Integer | PK, Order reference | Transaction grouping |
-| **SalesOrderDetailID** | Integer | PK, Line item ID | Unique identifier |
-| **ProductID** | Integer | FK to Product | Product linking |
-| **CustomerID** | Integer | FK to Customer | Customer linking |
-| **SalesPersonID** | Integer | FK to SalesPerson | Rep assignment |
-| **OrderDateID** | Integer | FK to Date | Transaction date |
-| **ShipDateID** | Integer | FK to Date | Fulfillment tracking |
-| **OrderQty** | Integer | Quantity sold | Volume metric |
-| **UnitPrice** | Decimal | Price per unit | Revenue component |
-| **ProductStandardCost** | Decimal | Cost per unit | COGS calculation |
-| **UnitPriceDiscount** | Decimal | Discount rate | Discount tracking |
-| **LineTotal** | Decimal | Extended amount | Order total |
-| **Status** | Text | Order status | Fulfillment tracking |
-| **OrderStatus** | Text | Complete/Pending | Status categorization |
-| **SalesChannel** | Text | Online/Reseller | Channel analysis |
+| **OrderDate** | dateTime | Hidden | Relates to Calendar Lookup[Date] |
+| **StockDate** | dateTime | Visible | Date the item was stocked |
+| **OrderNumber** | string | Visible | Order identifier; `Total Orders` uses `DISTINCTCOUNT` on this so multi-line orders count once |
+| **ProductKey** | int64 | Hidden | Relates to Product Lookup |
+| **CustomerKey** | int64 | Hidden | Relates to Customer Lookup |
+| **TerritoryKey** | int64 | Hidden | Relates to Territory Lookup |
+| **OrderLineItem** | int64 | Visible | Line number within the order |
+| **OrderQuantity** | int64 | Visible | Units ordered — the base of every revenue/profit calculation |
+| **Quantity Type** *(calculated)* | — | Visible | Supporting classification column |
 
-#### Key Relationships:
-- SalesOrderDetail.ProductID → Product.ProductID (M:1)
-- SalesOrderDetail.CustomerID → Customer.CustomerID (M:1)
-- SalesOrderDetail.SalesPersonID → SalesPerson.SalesPersonID (M:1)
-- SalesOrderDetail.OrderDateID → Date.DateID (M:1)
-- SalesOrderDetail.ShipDateID → Date.DateID (M:1)
+### Returns Data
 
-#### Aggregations:
-- Sum: OrderQty, UnitPrice, ProductStandardCost, LineTotal
-- Count: SalesOrderID (distinct for order count)
+**Purpose:** One row per returned item — the source for all return-rate and root-cause analysis.
 
----
-
-### Returns (Secondary Fact Table)
-
-**Purpose:** Product returns and refund tracking  
-**Granularity:** One row per returned item  
-**Record Count:** 50,000+  
-**Update Frequency:** Daily  
-
-#### Columns:
-
-| Column | Type | Description |
-|---|---|---|
-| **ReturnID** | Integer | PK, Return identifier |
-| **ProductID** | Integer | FK to Product |
-| **ReturnQty** | Integer | Quantity returned |
-| **ProductPrice** | Decimal | Item refund amount |
-| **ReturnAmount** | Decimal | Total refund |
-| **ReturnDateID** | Integer | FK to Date |
-| **ReturnReasonCode** | Text | Return reason |
-| **ReturnStatus** | Text | Processed/Pending |
-| **RestockingFee** | Decimal | Fee charged |
-
-#### Relationships:
-- Returns.ProductID → Product.ProductID (M:1)
-- Returns.ReturnDateID → Date.DateID (M:1)
+| Column | Type | Visible | Notes |
+|---|---|---|---|
+| **ReturnDate** | dateTime | Hidden | Relates to Calendar Lookup[Date] |
+| **TerritoryKey** | int64 | Hidden | Relates to Territory Lookup |
+| **ProductKey** | int64 | Hidden | Relates to Product Lookup |
+| **ReturnQuantity** | int64 | Visible | Units returned |
+| **ReturnReason** | string | Visible | Why the item was returned — powers the root-cause breakdown on the Returns page |
 
 ---
 
 ## Dimension Tables
 
-### Date (Time Dimension)
+### Calendar Lookup (13 columns)
 
-**Purpose:** Enable time intelligence and temporal analysis  
-**Granularity:** Daily  
-**Date Range:** 2015-01-01 to 2025-12-31  
-**Record Count:** ~4,000 rows  
+Standard date dimension supporting every time-based comparison in the model (month-over-month, year-over-year, quarter- and year-to-date).
 
-#### Columns:
+| Column | Type |
+|---|---|
+| Date | dateTime |
+| Day Name | string |
+| Start of Week / Start of Month / Start of Quarter / Start of Year | dateTime |
+| Month Name / Month Short | string / calculated |
+| Month | int64 |
+| Year | int64 |
+| Day of Week *(calculated)* | — |
+| Weekend *(calculated)* | — |
+| Quarter *(calculated: `FORMAT('Calendar Lookup'[Date], "Q")`)* | int64 |
 
-| Column | Type | Description | Example |
-|---|---|---|---|
-| **DateID** | Integer | PK | 20260626 |
-| **Date** | Date | Full date | 2026-06-26 |
-| **Year** | Integer | Calendar year | 2026 |
-| **Quarter** | Integer | Quarter (1-4) | 2 |
-| **Month** | Integer | Month (1-12) | 6 |
-| **MonthName** | Text | Month name | June |
-| **Week** | Integer | Week of year | 26 |
-| **DayOfWeek** | Integer | Weekday (1-7) | 5 |
-| **DayName** | Text | Day name | Friday |
-| **IsWeekend** | Boolean | Weekend flag | FALSE |
-| **FiscalYear** | Integer | Fiscal year | 2026 |
-| **QuarterName** | Text | Quarter label | Q2 2026 |
+### Customer Lookup (20 columns)
 
-#### Usage:
-- YTD/MTD/QTD calculations
-- Time intelligence functions
-- Fiscal period grouping
-- Trend analysis
+Customer demographic and profile data — drives the Customer page segmentation (occupation, income, education).
 
----
+| Column | Type |
+|---|---|
+| CustomerKey | int64 (key) |
+| Prefix / FirstName / LastName / Full Name *(calculated)* | string |
+| BirthDate / Birth Year *(calculated)* | dateTime / calculated |
+| MaritalStatus / Gender | string |
+| EmailAddress / Domain Name *(calculated)* | string |
+| AnnualIncome / Income Level *(calculated)* | int64 / calculated |
+| TotalChildren / Is Parent? *(calculated)* | int64 / calculated |
+| EducationLevel / Education Category *(calculated)* | string / calculated |
+| Occupation | string |
+| HomeOwner | string |
+| Customer Priority *(calculated)* | — |
 
-### Product (Product Dimension)
+### Product Lookup (14 columns)
 
-**Purpose:** Product master data and hierarchy  
-**Granularity:** Individual SKU  
-**Record Count:** 500+ products  
+Product master data — powers the Product page and every revenue/cost calculation (via `RELATED`).
 
-#### Columns:
+| Column | Type |
+|---|---|
+| ProductKey | int64 (key) |
+| ProductSubcategoryKey | int64 (hidden, FK) |
+| ProductSKU / ProductName / ModelName / ProductDescription | string |
+| ProductColor / ProductSize / ProductStyle | string |
+| **ProductCost** | decimal — used in `Total Cost` |
+| **ProductPrice** | decimal — used in `Total Revenue` and `Adjusted Revenue` |
+| SKU Type | string |
+| Discounted Price | decimal |
+| SKU Category *(calculated)* | — |
 
-| Column | Type | Description | Example |
-|---|---|---|---|
-| **ProductID** | Integer | PK | 1001 |
-| **ProductName** | Text | Product title | "Road-150" |
-| **ProductNumber** | Text | SKU | "BK-R205-60" |
-| **Category** | Text | Main category | "Bikes" |
-| **Subcategory** | Text | Sub-category | "Road Bikes" |
-| **Brand** | Text | Manufacturer | "AdventureWorks" |
-| **Color** | Text | Product color | "Red" |
-| **Size** | Text | Product size | "58" |
-| **ListPrice** | Decimal | MSRP | 1431.50 |
-| **ProductCost** | Decimal | Standard cost | 350.00 |
-| **ProductLine** | Text | Product line | "M" (Mountain/Road) |
-| **Class** | Text | Product class | "L" (Low/Mid/High) |
-| **Style** | Text | Design style | "Unisex" |
-| **ModelYear** | Integer | Year introduced | 2025 |
-| **ProductStatus** | Text | Active/Obsolete | "Active" |
-| **StockLevel** | Integer | Current inventory | 150 |
-| **SafetyStockLevel** | Integer | Minimum inventory | 20 |
-| **DiscontinuedDate** | Date | End of life | NULL |
+### Product Categories Lookup / Product Subcategories Lookup
 
-#### Hierarchy:
-```
-Category → Subcategory → Brand → Product Line → Product
-```
+Two-level category hierarchy feeding the Product page's category and subcategory breakdowns.
 
-#### Usage:
-- Product-level analysis
-- Portfolio management
-- Profitability tracking
-- Inventory monitoring
+| Table | Columns |
+|---|---|
+| Product Categories Lookup | ProductCategoryKey (hidden), CategoryName |
+| Product Subcategories Lookup | ProductSubcategoryKey (hidden), SubcategoryName, ProductCategoryKey (hidden, FK) |
+
+### Territory Lookup (4 columns)
+
+Geographic dimension driving the Map page and the Continent → Country → Region drill.
+
+| Column | Type |
+|---|---|
+| SalesTerritoryKey | int64 (key) |
+| Region / Country / Continent | string |
 
 ---
 
-### Customer (Customer Dimension)
+## Parameter Tables
 
-**Purpose:** Customer master data and segmentation  
-**Granularity:** Individual customer  
-**Record Count:** 20,000+ customers  
+These have **no relationship** to the fact tables — they exist purely to drive interactivity, and measures reference their selected value directly via `SELECTEDVALUE`.
 
-#### Columns:
-
-| Column | Type | Description | Example |
-|---|---|---|---|
-| **CustomerID** | Integer | PK | 29485 |
-| **CustomerName** | Text | Full name | "John Smith" |
-| **EmailAddress** | Text | Email | "john@email.com" |
-| **City** | Text | City | "San Francisco" |
-| **StateProvinceName** | Text | State | "California" |
-| **CountryRegionName** | Text | Country | "United States" |
-| **PostalCode** | Text | Zip code | "94105" |
-| **CustomerType** | Text | Individual/Store | "Individual" |
-| **FirstPurchaseDate** | Date | Initial purchase | 2015-03-15 |
-| **LastPurchaseDate** | Date | Most recent | 2026-06-15 |
-| **AnnualIncome** | Decimal | Income bracket | 75000 |
-| **TotalSpent** | Decimal | Lifetime value | 5250 |
-| **TotalOrders** | Integer | Order count | 12 |
-| **AverageOrderValue** | Decimal | AOV | 437.50 |
-| **SegmentRank** | Integer | RFM segment | 1 (Top) |
-
-#### Customer Segments:
-- **Premium:** High frequency, high value, recent purchase
-- **Gold:** Medium-high value, regular purchases
-- **Silver:** Medium value, occasional purchases
-- **Bronze:** Low value or inactive
-
-#### Usage:
-- Customer analytics
-- RFM segmentation
-- Churn prediction
-- Targeted marketing
+| Table | Drives | Values |
+|---|---|---|
+| **Price Adjustment (%)** | The pricing scenario slider on the Executive/Product pages | 0% to +50% |
+| **Product Metric Selection** | The Product page trend-metric switcher | Orders, Revenue, Profit, Returns, Return % |
+| **Customer Metric Selection** | The Customer page view toggle | Active Customers, Avg Revenue per Customer |
+| **TopCustomerBy** | The top-10 ranking sort order | Revenue, Orders, Profit |
+| **Territory Parameter** | The Map page drill toggle | Continent, Country, Region |
+| **Dates Parameter** | The revenue trend granularity switcher | Year, Month, Week, Day |
 
 ---
 
-### SalesPerson (Sales Rep Dimension)
+## Supporting Tables
 
-**Purpose:** Sales team structure and performance tracking  
-**Granularity:** Individual salesperson  
-**Record Count:** 300+ representatives  
+### Measure Table
+A hidden table that houses all 150 DAX measures, organized into 8 display folders for fast discovery. See [`DAX_Measures.md`](DAX_Measures.md) for the full reference.
 
-#### Columns:
-
-| Column | Type | Description | Example |
-|---|---|---|---|
-| **SalesPersonID** | Integer | PK | 275 |
-| **FirstName** | Text | First name | "Michael" |
-| **LastName** | Text | Last name | "Blythe" |
-| **FullName** | Text | Full name | "Michael Blythe" |
-| **JobTitle** | Text | Position | "Sales Representative" |
-| **ManagerID** | Integer | Direct manager | 268 |
-| **ManagerName** | Text | Manager name | "Jillian Carson" |
-| **TerritoryID** | Integer | Primary territory | 1 |
-| **CommissionPct** | Decimal | Commission rate | 1.5 |
-| **Bonus** | Decimal | Annual bonus | 5000 |
-| **YTDSales** | Decimal | Year-to-date revenue | 125000 |
-| **LastYearSales** | Decimal | Previous year | 150000 |
-| **HireDate** | Date | Hire date | 2011-05-12 |
-| **TerminationDate** | Date | End date | NULL |
-| **RepStatus** | Text | Active/Inactive | "Active" |
-
-#### Hierarchy:
-```
-Manager → Sales Rep → Territory → Customers
-```
-
-#### Usage:
-- Sales rep performance
-- Commission tracking
-- Hierarchical reporting
-- Territory management
+### Time Intelligence (calculation group)
+A single calculation group with 10 reusable items — Revenue (base), LM, MoM, MoM %, LY, YoY, YoY %, QTD, YTD, MTD — that apply to whichever base measure is placed in the Executive page's period-comparison matrix, rather than requiring a separate measure per metric per period.
 
 ---
 
-### Territory (Geographic Dimension)
+## Relationships
 
-**Purpose:** Geographic sales regions and territories  
-**Granularity:** Sales territory  
-**Record Count:** 50+ territories  
+| From | To | Type |
+|---|---|---|
+| Sales Data[TerritoryKey] | Territory Lookup[SalesTerritoryKey] | Many-to-one |
+| Sales Data[OrderDate] | Calendar Lookup[Date] | Many-to-one |
+| Sales Data[CustomerKey] | Customer Lookup[CustomerKey] | Many-to-one |
+| Sales Data[ProductKey] | Product Lookup[ProductKey] | Many-to-one |
+| Product Subcategories Lookup[ProductCategoryKey] | Product Categories Lookup[ProductCategoryKey] | Many-to-one |
+| Product Lookup[ProductSubcategoryKey] | Product Subcategories Lookup[ProductSubcategoryKey] | Many-to-one |
+| Returns Data[TerritoryKey] | Territory Lookup[SalesTerritoryKey] | Many-to-one |
+| Returns Data[ProductKey] | Product Lookup[ProductKey] | Many-to-one |
+| Returns Data[ReturnDate] | Calendar Lookup[Date] | Many-to-one |
 
-#### Columns:
-
-| Column | Type | Description | Example |
-|---|---|---|---|
-| **TerritoryID** | Integer | PK | 1 |
-| **TerritoryName** | Text | Territory name | "Northeast" |
-| **Region** | Text | Large region | "North America" |
-| **SubRegion** | Text | Sub-region | "Northeast Coast" |
-| **CountryRegion** | Text | Country | "United States" |
-| **SalesYTD** | Decimal | Year-to-date sales | 3000000 |
-| **SalesLastYear** | Decimal | Previous year | 2800000 |
-| **TerritoryManager** | Text | Manager name | "Steven Kannan" |
-| **GrowthRate** | Decimal | YoY growth | 7.1% |
-
-#### Hierarchy:
-```
-Region → SubRegion → Territory
-```
-
-#### Usage:
-- Geographic performance
-- Regional trends
-- Territory assignments
-- Growth analysis
+All relationships filter in a single direction, from dimension to fact — the standard star schema pattern that keeps query performance predictable as the model grows.
 
 ---
 
-## Data Quality & Governance
+## Why This Design Works
 
-### Data Integrity Checks
-✅ **Referential Integrity:** All FKs have matching PKs  
-✅ **No Orphans:** No fact rows with missing dimension keys  
-✅ **Date Coverage:** Continuous dates, no gaps  
-✅ **Cardinality:** Verified M:1 relationships  
-✅ **Duplicates:** Checked and removed  
-
-### Quality Metrics
-- **Fact Table Rows:** 500K verified
-- **Date Range:** 2015-2025 complete years
-- **Customer Dedup:** 20K unique customers
-- **Product Count:** 500+ active SKUs
-- **Data Freshness:** Daily refresh
+- **Parameter tables stay disconnected** from the sales data, so pricing scenarios, metric toggles, and drill-downs don't risk double-counting or slowing down the core model
+- **Two fact tables share the same dimensions** (Calendar, Product, Territory), so returns can always be analyzed in the same terms as sales
+- **A two-level product hierarchy** (Category → Subcategory → Product) supports drill-down without flattening everything into one wide table
+- **One calculation group replaces what would otherwise be dozens of duplicate measures** — every metric gets last-month, year-over-year, and to-date comparisons without writing that logic more than once
 
 ---
 
-## Performance Optimization
-
-### Indexes & Keys
-- All PKs indexed for lookup performance
-- All FKs indexed for relationship traversal
-- Date table optimized for time intelligence
-- Fact table partitioned by year
-
-### Best Practices Applied
-✅ Star schema (vs. snowflake) for simplicity  
-✅ Columnar compression in Power BI  
-✅ Aggregation tables for large measures  
-✅ Role-playing dimensions (Date used twice)  
-✅ Deactivated relationships for flexibility  
-
-### Query Performance Tips
-1. Filter by Date first (reduces fact table volume)
-2. Use CALCULATE with specific dimensions
-3. Leverage aggregations for large datasets
-4. Avoid unnecessary FILTER functions
-5. Use CONTAINS for multi-column lookups
-
----
-
-## Relationships Summary
-
-| Relationship | Type | Cardinality | Active |
-|---|---|---|---|
-| SalesOrderDetail → Product | FK | M:1 | Yes |
-| SalesOrderDetail → Customer | FK | M:1 | Yes |
-| SalesOrderDetail → SalesPerson | FK | M:1 | Yes |
-| SalesOrderDetail → Date (Order) | FK | M:1 | Yes |
-| SalesOrderDetail → Date (Ship) | FK | M:1 | No |
-| Returns → Product | FK | M:1 | Yes |
-| Returns → Date | FK | M:1 | Yes |
-| SalesPerson → Territory | FK | M:1 | Yes |
-| Customer → Territory | FK | M:1 | No |
-
-**Note:** Deactivated relationships available for advanced analysis via USERELATIONSHIP()
-
----
-
-## Data Dictionary
-
-**Dimensions:** 5 tables, 85+ columns  
-**Facts:** 2 tables, 20+ measures  
-**Total Tables:** 7  
-**Total Columns:** 100+  
-**Estimated Size:** 200MB-500MB in Power BI  
-**Last Updated:** June 2026  
-
----
-
-**Schema Version:** 2.0  
-**Optimization Level:** Production-Ready  
-**Design Pattern:** Star Schema (Dimensional Model)
+**Total Tables:** 16
+**Total Relationships:** 9
+**Last Updated:** July 2026
