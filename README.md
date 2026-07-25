@@ -191,7 +191,9 @@ SUPPORTING TABLES
 | Map | `05_map.png` | <img width="1384" height="777" alt="05_map" src="https://github.com/user-attachments/assets/a84e009f-5e8b-400e-8341-b941eebaa68a" />|
 | Returns | `06_returns.png` | <img width="1384" height="777" alt="06_returns" src="https://github.com/user-attachments/assets/298e7991-9e60-485d-bb4a-60037b3e44f7" />|
 
-> 💡 **Tip:** A short screen recording showing the filter toggle, the period-comparison switch, and the pricing slider in action demonstrates the interactivity far better than static images — worth having ready for interviews.
+
+https://github.com/user-attachments/assets/fb07e298-3c60-4838-abbf-c1bc25dea4b9
+
 
 ---
 
