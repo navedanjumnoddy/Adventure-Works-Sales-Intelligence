@@ -161,7 +161,7 @@ These have **no relationship** to the fact tables — they exist purely to drive
 
 | Table | Drives | Values |
 |---|---|---|
-| **Price Adjustment (%)** | The pricing scenario slider on the Executive/Product pages | 0% to +50% |
+| **Price Adjustment (%)** | The pricing scenario slider on the Executive/Product pages | 0% to +20% |
 | **Product Metric Selection** | The Product page trend-metric switcher | Orders, Revenue, Profit, Returns, Return % |
 | **Customer Metric Selection** | The Customer page view toggle | Active Customers, Avg Revenue per Customer |
 | **TopCustomerBy** | The top-10 ranking sort order | Revenue, Orders, Profit |
