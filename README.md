@@ -184,12 +184,16 @@ SUPPORTING TABLES
 
 | Page | Filename | Key Elements to Capture |
 |------|---------|------------------------|
-| Home | `01_home_page.png` | *[screenshot / GIF placeholder — add here]* |
-| Executive | `02_executive.png` | *[include the period-comparison toggle]* |
-| Product | `03_product.png` | *[screenshot / GIF placeholder — add here]* |
-| Customer | `04_customer.png` | *[screenshot / GIF placeholder — add here]* |
-| Map | `05_map.png` | *[include the revenue-vs-return-rate view]* |
-| Returns | `06_returns.png` | *[screenshot / GIF placeholder — add here]* |
+| Home | `01_home_page.png` | <img width="1384" height="777" alt="01_home_page" src="https://github.com/user-attachments/assets/59aaa7ed-76ee-4d5d-a8fc-fdf5937508e5" />|
+| Executive | `02_executive.png` | <img width="1384" height="777" alt="02_executive" src="https://github.com/user-attachments/assets/dcc86ce4-b93a-4f14-af71-966b343b9021" />|
+| Product | `03_product.png` | <img width="1384" height="777" alt="03_product" src="https://github.com/user-attachments/assets/a5c183d1-cf51-49f2-986a-291e1a306a0a" />
+ |
+| Customer | `04_customer.png` | <img width="1384" height="777" alt="04_customer" src="https://github.com/user-attachments/assets/add1b11c-73c2-494d-bc5b-b7b95017642f" />
+ |
+| Map | `05_map.png` | <img width="1384" height="777" alt="05_map" src="https://github.com/user-attachments/assets/a84e009f-5e8b-400e-8341-b941eebaa68a" />
+ |
+| Returns | `06_returns.png` | <img width="1384" height="777" alt="06_returns" src="https://github.com/user-attachments/assets/298e7991-9e60-485d-bb4a-60037b3e44f7" />
+ |
 
 > 💡 **Tip:** A short screen recording showing the filter toggle, the period-comparison switch, and the pricing slider in action demonstrates the interactivity far better than static images — worth having ready for interviews.
 
