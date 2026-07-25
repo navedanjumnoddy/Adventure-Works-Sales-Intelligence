@@ -180,8 +180,6 @@ SUPPORTING TABLES
 
 ## 📸 Screenshots & Visual Guides
 
-> **How to add:** In Power BI Desktop → File → Export → Export to PNG per page. Save to `Screenshots/` folder with the names below.
-
 | Page | Filename | Key Elements to Capture |
 |------|---------|------------------------|
 | Home | `01_home_page.png` | <img width="1384" height="777" alt="01_home_page" src="https://github.com/user-attachments/assets/59aaa7ed-76ee-4d5d-a8fc-fdf5937508e5" />|
